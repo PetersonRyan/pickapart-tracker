@@ -3,15 +3,19 @@ from carList import *
 from selenium import webdriver
 import os
 import sqlite3
-from pushbullet import Pushbullet
 
-#https://www.pushbullet.com/#settings/account
-#Click Create Access Token and put it here if you want a push whenever a new car is added
-pushbullet_access_token = ''
-#from pushbullet_access import *
-pb = Pushbullet(pushbullet_access_token)
+pushbullet_on = 0
+try:
+    from pushhbullet import Pushbullet
+    #https://www.pushbullet.com/#settings/account
+    #Click Create Access Token and put it here if you want a push whenever a new car is added
+    pushbullet_access_token = ''
+    #from pushbullet_access import *
+    pb = Pushbullet(pushbullet_access_token)
+    pushbullet_on = 1
+except Exception as e:
+    print("pushbullet.py not installed or token not defined. Pushbullet notifications will not be sent.")
 
-print(pushbullet_access_token)
 
 def getAllCars():
     with conn:
@@ -122,7 +126,8 @@ for row in rows:
             print(descriptor_string)
 
             #Send notification to my pushbullet
-            push = pb.push_note("New car available at Pick-a-Part!", descriptor_string)
+            if pushbullet_on == 1:
+                push = pb.push_note("New car available at Pick-a-Part!", descriptor_string)
 
 
 if new_cars_found == 0:
