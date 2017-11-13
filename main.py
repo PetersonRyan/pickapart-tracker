@@ -77,16 +77,12 @@ driver = webdriver.PhantomJS(phantomjs_path)
 #driver = webdriver.Chrome(chrome_driver_path)
 
 #Load website and wait for it to load
-driver.get('http://parts.pickapart.ca/');
-time.sleep(3)
-
-#Select car from list so car table loads, then wait for load
-driver.execute_script("$('#search-list').val('" + car_type + "').trigger('change');")
+driver.get('http://parts.pickapart.ca/?md=submit&model=' + car_type)
 time.sleep(2)
 
 #Give the main table an id, just to make things easier when using Selenium selectors
 tbody_id = 'car-tbody'
-driver.execute_script('$(\'table.main tbody\').attr(\'id\', \'' + tbody_id + '\');') #jQuery is easy...
+driver.execute_script('$(\'table.main tbody\').attr(\'id\', \'' + tbody_id + '\');')
 
 #Get main table by id, then get a list of all rows in the table
 car_tbody = driver.find_element_by_id(tbody_id)
