@@ -19,3 +19,5 @@ pip install pushbullet.py
 
 
 To use just uncomment the car you want from carList.py, then run main.py
+
+For more convenience, try running this script on a schedule to be notified automatically!
