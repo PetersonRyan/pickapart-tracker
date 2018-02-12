@@ -1,6 +1,8 @@
 # pickapart-tracker
 This python app checks pickapart.ca to see if a new car has been added, then notifies you if so.
 
+Some dependencies are required for this program to work. First install pip to manage the other dependencies by typing `sudo easy_install pip` in terminal.
+
 Must have Selenium installed for Python
 https://pypi.python.org/pypi/selenium
 or
