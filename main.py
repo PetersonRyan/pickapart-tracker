@@ -3,10 +3,11 @@ from carList import *
 from selenium import webdriver
 import os
 import sqlite3
+from selenium.webdriver.chrome.options import Options #Allows headless Chrome
 
 pushbullet_on = 0
 try:
-    from pushhbullet import Pushbullet
+    from pushbullet import Pushbullet
     #https://www.pushbullet.com/#settings/account
     #Click Create Access Token and put it here if you want a push whenever a new car is added
     pushbullet_access_token = ''
@@ -15,7 +16,6 @@ try:
     pushbullet_on = 1
 except Exception as e:
     print("pushbullet.py not installed or token not defined. Pushbullet notifications will not be sent.")
-
 
 def getAllCars():
     with conn:
@@ -70,11 +70,13 @@ if first_run == 0: print("Looking for cars. Please wait.")
 dir = os.path.dirname(os.path.realpath(__file__))
 
 chrome_driver_path = dir + "/chromedriver"
-phantomjs_path = dir + "/phantomjs"
 
-#PhantomJS doesn't open a browser window, so it is more discreet and nice. Use Chrome if errors?
-driver = webdriver.PhantomJS(phantomjs_path)
-#driver = webdriver.Chrome(chrome_driver_path)
+#Start Chrome headless. This means now GUI window, it runs in the background
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+
+
+driver = webdriver.Chrome(chrome_driver_path, chrome_options=chrome_options)
 
 #Load website and wait for it to load
 driver.get('http://parts.pickapart.ca/?md=submit&model=' + car_type)
